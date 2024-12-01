@@ -23,25 +23,38 @@ export default {
       {
         test: /\.scss$/i,
         use: [
-          "style-loader", 
-          "css-loader", 
+          "style-loader",
+          "css-loader",
           {
-            loader:"sass-loader",
-            options:{
-              sassOptions:{
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
                 quietDeps: true
               }
             }
           }
-          
+
         ],
       },
+      {
+        test: /\.njk$/,
+        use: [
+          {
+            loader: 'simple-nunjucks-loader',
+            options: {}
+          }
+        ]
+      }
     ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-        template: "./src/index.html"
-    })
- ],
+      template: "./src/index.njk"
+    }),
+    new HtmlWebpackPlugin({
+      filename: "about.html",
+      template: "./src/about.njk"
+    }),
+  ],
 };

@@ -28,23 +28,23 @@ let ToDoItems = computed(() => items.value.filter(item => !item.isDone));
 </script>
 
 <template>
-    <div class="container mt-2">
-        <div class="field has-addons">
-            <div class="control">
-                <input class="input" type="text" v-model="message" @keypress.enter="addItem">
-            </div>
-            <div class="control">
-                <button class="button is-info" @click="addItem">
-                    Add item
-                </button>
-            </div>
+
+    <div class="field has-addons">
+        <div class="control">
+            <input class="input" type="text" v-model="message" @keypress.enter="addItem">
         </div>
-        <div class="content">
-            <ItemList :items="items" title="Items"></ItemList> 
-            <ItemList :items="doneItems" title="Done Items"></ItemList>   
-            <ItemList :items="ToDoItems" title="ToDo Items"></ItemList>           
+        <div class="control">
+            <button class="button is-info" @click="addItem">
+                Add item
+            </button>
         </div>
     </div>
+    <div class="content">
+        <ItemList :items="items" title="Items"></ItemList>
+        <ItemList :items="doneItems" title="Done Items"></ItemList>
+        <ItemList :items="ToDoItems" title="ToDo Items"></ItemList>
+    </div>
+
 
 </template>
 

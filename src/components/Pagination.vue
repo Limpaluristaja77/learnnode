@@ -34,7 +34,7 @@ console.log(pageNumbers.value);
         <ul class="pagination-list">
             <li v-for="page in pageNumbers">
                 <span class="pagination-ellipsis" v-if="page === '...'">&hellip;</span>
-                <a href="#" class="pagination-link" :class="{'is-current' :current === page}" aria-label="Goto page 1" v-else>{{ page }}</a>
+                <a href="#" class="pagination-link" :class="{'is-current' :current === page}" :aria-label="`Goto page ${page}`" v-else>{{ page }}</a>
             </li>
 
 

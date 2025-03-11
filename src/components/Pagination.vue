@@ -33,7 +33,8 @@ console.log(pageNumbers.value);
         <button @click="$emit('next')" :disabled="!info.next" class="pagination-next">Next page</button>
         <ul class="pagination-list">
             <li v-for="page in pageNumbers">
-                <a href="#" class="pagination-link" aria-label="Goto page 1">{{ page }}</a>
+                <span class="pagination-ellipsis" v-if="page === '...'">&hellip;</span>
+                <a href="#" class="pagination-link" :class="{'is-current' :current === page}" aria-label="Goto page 1" v-else>{{ page }}</a>
             </li>
 
 

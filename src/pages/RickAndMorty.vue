@@ -11,21 +11,22 @@ const info = ref({});
 const currentPage = ref(1);
 const SearchValue = ref('');
 const error = ref('');
+let searchTimeout = null;
 
 await getCharacters('https://rickandmortyapi.com/api/character');
 
 async function getCharacters() {
     try {
         let response = await axios.get('https://rickandmortyapi.com/api/character', {
-        params: {
-            page: currentPage.value,
-            name: SearchValue.value
-        }
-    });
-    console.log(response.data);
-    characters.value = response.data.results;
-    info.value = response.data.info;
-    } catch(err) {
+            params: {
+                page: currentPage.value,
+                name: SearchValue.value
+            }
+        });
+        console.log(response.data);
+        characters.value = response.data.results;
+        info.value = response.data.info;
+    } catch (err) {
         console.log(err);
         error.value = 'No results found';
         characters.value = [];
@@ -50,10 +51,16 @@ async function page(page) {
 }
 
 async function search() {
-    error.value='';
-    currentPage.value = 1;
-    await getCharacters();
-    
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+        error.value = '';
+        currentPage.value = 1;
+
+        await getCharacters();
+
+    }, 1000);
+
+
 }
 
 </script>
@@ -61,7 +68,7 @@ async function search() {
 <template>
     <div class="field has-addons">
         <div class="control is-expanded">
-            <input v-model= "SearchValue" class="input" type="text" placeholder="Find character">
+            <input @input="search" v-model="SearchValue" class="input" type="text" placeholder="Find character">
         </div>
         <div class="control">
             <button @click="search" class="button is-info">

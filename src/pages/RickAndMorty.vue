@@ -54,6 +54,7 @@ async function search() {
     searchTimeout = setTimeout(async () => {
         error.value = '';
         currentPage.value = 1;
+        characters.value = [];
 
         await getCharacters();
 

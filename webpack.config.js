@@ -15,7 +15,7 @@ export default {
       directory: path.join(import.meta.dirname, 'public'),
     },
     compress: true,
-    port: 9000,
+    port: 8000,
     historyApiFallback: true,
   },
   module: {

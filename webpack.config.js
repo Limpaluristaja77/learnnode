@@ -1,6 +1,7 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
+import { all } from 'axios';
 
 
 
@@ -17,6 +18,7 @@ export default {
     compress: true,
     port: 8000,
     historyApiFallback: true,
+    allowedHosts: "all",
   },
   module: {
     rules: [

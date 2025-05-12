@@ -1,31 +1,23 @@
-import express from 'express';
-const app = express();
-const port = 3000;
+import { cli } from 'webpack';
+import { WebSocketServer } from 'ws';
+
+const wss = new WebSocketServer({ port: 8080 });
+
 let messages = [];
 
-app.use(express.json());
-app.use(express.urlencoded());
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'content-type');
-    next();
-});
-app.get('/', (req, res) => {
-    let date = req.query.date ?? null;
-    if (date) {
-        date = new Date(date);
-    } else {
-        date = new Date(null);
-    }
-    let filteredMessages = messages.filter(message => message.date > new Date(date));
-    res.json(filteredMessages);
-});
+wss.on('connection', function connection(ws) {
+  ws.on('error', console.error);
 
-app.post('/', (req, res) => {
-    messages.push({ message: req.body.message, date: new Date() });
-    res.json(req.body);
-});
+  ws.on('message', function message(data) {
+    console.log('received: %s', data);
+    data = JSON.parse(data.toString());
+    messages.push(data);
+    wss.clients.forEach(client => {
+        if(client.readyState === client.OPEN){
+            client.send(JSON.stringify(data));
+        }
+    });
+  });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
+  ws.send(JSON.stringify({type: 'messages', messages}));
 });
